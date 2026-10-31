@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mate O'Clock</title>
+<meta name="description" content="Mate O'Clock: a new chess puzzle every day, in under a minute.">
+<style>
+  :root { --bg: #f6f7f4; --ink: #1f2937; --muted: #5b6470; --green: #4f7a2f; --card: #ffffff; --line: #dfe4d8; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #161a14; --ink: #e8ebe4; --muted: #a3ab9c; --green: #9cc96f; --card: #1f241c; --line: #333b2d; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 720px; margin: 0 auto; padding: 48px 20px 64px; }
+  h1 { font-size: 2.2rem; line-height: 1.2; margin: 0 0 4px; }
+  h2 { font-size: 1.25rem; margin: 36px 0 8px; }
+  .tag { color: var(--muted); margin: 0 0 28px; }
+  a { color: var(--green); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 4px 22px; }
+  footer { margin-top: 48px; color: var(--muted); font-size: .9rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Mate O'Clock</h1>
+  <p class="tag">A new chess puzzle every day, in under a minute.</p>
+
+  <div class="card">
+    <p>Mate O'Clock is a YouTube channel of short chess puzzles. Each Short shows a position, gives you a few
+      seconds to find the winning move, then explains the solution move by move.</p>
+    <p><a href="https://www.youtube.com/@MateOClock">Watch on YouTube: @MateOClock</a></p>
+  </div>
+
+  <h2>Mate OClock Uploader</h2>
+  <p>Mate OClock Uploader is the channel's own command-line tool. The channel owner runs it on their own computer to
+    upload the finished puzzle videos to the Mate O'Clock channel through the YouTube Data API, as private videos with
+    a scheduled publish time. It asks for one permission (youtube.upload), has no other users, is not offered to anyone
+    else, and reads no YouTube data.</p>
+  <p>Mate OClock Uploader uses YouTube API Services. The <a href="privacy.html">privacy policy</a> explains what data it
+    handles.</p>
+
+  <h2 id="terms">Terms of use</h2>
+  <p>By using Mate OClock Uploader you agree to be bound by the
+    <a href="https://www.youtube.com/t/terms">YouTube Terms of Service</a>. The tool is provided as is, for uploading
+    to the Mate O'Clock channel only.</p>
+
+  <h2>Contact</h2>
+  <p><a href="mailto:mateoclockchess@gmail.com">mateoclockchess@gmail.com</a></p>
+
+  <footer><a href="privacy.html">Privacy policy</a> · <a href="#terms">Terms of use</a></footer>
+</main>
+</body>
+</html>
