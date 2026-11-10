@@ -47,6 +47,9 @@ def find_entry(project, clip_id):
 
 
 def clip_path(project, entry):
+    prepared = entry.get("prepared")
+    if prepared and (project.root / prepared).exists():
+        return (project.root / prepared).resolve()
     return (project.root / entry["file"]).resolve()
 
 

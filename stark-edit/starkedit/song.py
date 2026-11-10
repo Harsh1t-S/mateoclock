@@ -7,7 +7,7 @@ import scipy.signal
 from .config import load_json, save_json
 from .media import AUDIO_EXTENSIONS, VIDEO_EXTENSIONS, MediaError, extract_wav, file_signature, list_media
 
-SONG_VERSION = 3
+SONG_VERSION = 5
 ANALYSIS_RATE = 22050
 HOP = 256
 ATTACK_BIAS = 0.004
@@ -346,8 +346,15 @@ def analyze(project, force=False, path=None, log=print):
     song_start = float(beats[start])
     timeline = [round(float(b - song_start), 5) for b in beats[start : end + 1]]
     grid = cut_grid(chosen, energy, hit, half_strength, per_bar)
-    section_hits = zscore(hit[start : end + 1])
-    order = np.argsort(section_hits)[::-1]
+    impact = 0.6 * zscore(hit) + zscore(low) + zscore(np.maximum(jump, 0.0))
+    impact[phase::per_bar] += 0.4
+    section_impact = impact[start : end + 1]
+    order = []
+    for candidate in np.argsort(section_impact)[::-1]:
+        if all(abs(int(candidate) - chosen_hit) > 2 for chosen_hit in order):
+            order.append(int(candidate))
+        if len(order) == 8:
+            break
     result = {
         "key": key,
         "file": project.relative(source),
@@ -366,6 +373,7 @@ def analyze(project, force=False, path=None, log=print):
         "attack_clear": [bool(v > 0.2) for v in strength],
         "energy_db": [round(float(v), 2) for v in energy],
         "hit": [round(float(v), 3) for v in hit],
+        "impact": [round(float(v), 3) for v in impact],
         "candidates": candidates[:8],
         "section": {
             **chosen,
@@ -389,7 +397,7 @@ def plot(project, result, y, rate, rise):
 
     beats = np.array(result["beats"])
     energy = np.array(result["energy_db"])
-    hit = np.array(result["hit"])
+    hit = np.array(result["impact"])
     section = result["section"]
     per_bar = result["beats_per_bar"]
     phase = result["downbeat_phase"]
@@ -427,7 +435,7 @@ def plot(project, result, y, rate, rise):
     for slot in section["grid"]:
         ax.axvline(slot["beat"] - 0.5, color="#1a202c", linewidth=0.9, alpha=0.8)
     ax.set_xlim(-1, len(positions))
-    ax.set_title("onset strength per beat in the section (red = downbeat), vertical lines = suggested cuts")
+    ax.set_title("impact per beat in the section (onset + low-end rise + energy jump; red = downbeat), vertical lines = suggested cuts")
     ax = axes[3]
     centre = section["drop"]
     lo = int((centre - 0.25) * 1000)
