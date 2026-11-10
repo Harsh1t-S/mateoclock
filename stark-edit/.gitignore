@@ -1,0 +1,9 @@
+clips/
+audio/
+work/
+output/
+models/
+__pycache__/
+*.pyc
+.venv/
+venv/
